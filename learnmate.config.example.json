@@ -1,0 +1,9 @@
+{
+  "vaultPath": "./vault",
+  "model": "",
+  "baseUrl": "https://api.deepseek.com/v1",
+  "promptVersion": "analyze.v2",
+  "maxInputChars": 20000,
+  "requestTimeoutMs": 60000,
+  "apiKeyEnv": "LEARNMATE_API_KEY"
+}

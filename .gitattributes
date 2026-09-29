@@ -1,0 +1,23 @@
+# 行尾统一钉死为 LF。
+#
+# 为什么需要这个文件：
+# Windows 版 Git 默认 core.autocrlf=true，会在检出时把文件改成 CRLF、
+# 提交时再改回 LF。结果是每次重新检出，整个文件都显示为「已修改」，
+# diff 变得无法阅读。这里显式声明，覆盖那个默认行为。
+#
+# 注意：契约（docs/03-contracts.md 第 5.5 节）要求 ingest 也做 CRLF→LF 规范化。
+# 两处都做不是重复——.gitattributes 管的是源码，ingest 管的是用户粘贴进来的文本。
+* text=auto eol=lf
+
+# 明确按二进制处理，不要尝试转换行尾
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.woff binary
+*.woff2 binary
+*.docx binary
+*.xlsx binary
+*.pdf  binary

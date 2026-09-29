@@ -1,0 +1,30 @@
+{
+  "name": "learnmate",
+  "version": "0.1.0",
+  "description": "Personal AI Knowledge Assistant —— 把学习笔记整理成结构化 Markdown，存进你自己的知识库",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "learnmate": "./dist/main.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "dev": "node --import tsx src/main.ts",
+    "start": "node dist/main.js",
+    "build:test": "tsc -p tsconfig.test.json",
+    "test": "npm run build:test && node --test --experimental-test-isolation=none \"dist-test/tests/**/*.test.js\""
+  },
+  "dependencies": {
+    "commander": "^15.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,18 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Markdown 里行尾两个空格表示「换行」，不能被自动删掉
+[*.md]
+trim_trailing_whitespace = false
+
+# 用户笔记是生成物，不强制格式化（避免编辑器改写知识库内容）
+[vault/**]
+insert_final_newline = false
+trim_trailing_whitespace = false
