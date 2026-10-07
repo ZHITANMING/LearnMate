@@ -75,12 +75,17 @@ setx LEARNMATE_API_KEY "你的密钥"
 
 | 键 | 默认 | 说明 |
 | --- | --- | --- |
-| `vaultPath` | `./vault` | 知识库位置，相对**当前工作目录** |
+| `vaultPath` | `./vault` | 知识库位置，相对**当前工作目录**。**建议指到仓库外**，见下 |
 | `model` | 无，**必填** | 模型标识，会写进每条笔记的 frontmatter |
 | `promptVersion` | `analyze.v2` | 对应 `prompts/<版本>.md` |
 | `maxInputChars` | `20000` | 单次输入的长度上限，超过直接报错、不截断 |
 | `requestTimeoutMs` | `60000` | 单次模型请求超时（毫秒） |
 | `apiKeyEnv` | `LEARNMATE_API_KEY` | 存放密钥的**环境变量名** |
+
+> **知识库建议放在仓库外。** `.gitignore` 挡得住 `git add`，挡不住 `git clean -xdf`
+> 这类「连被忽略的文件一起删」的命令。示例配置把它放在仓库的上一级
+> （`../learnmate-vault`），写绝对路径也可以——相对路径的基准是**当前工作目录**。
+> 理由见 `docs/decisions.md` 的 D44。
 
 配置完检查一下：
 

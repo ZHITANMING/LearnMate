@@ -1,5 +1,5 @@
 {
-  "vaultPath": "./vault",
+  "vaultPath": "../learnmate-vault",
   "model": "",
   "baseUrl": "https://api.deepseek.com/v1",
   "promptVersion": "analyze.v2",

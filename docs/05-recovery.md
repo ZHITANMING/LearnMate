@@ -243,7 +243,7 @@ learnmate rebuild-index              # 再写
 
 ## 6. 备份
 
-`vault/` **不在 Git 里**（已在 `.gitignore` 中，见 `decisions.md` D8）。它不会自己留底。
+`vault/` **不在 Git 里**（`.gitignore`，见 `decisions.md` D8），而且**默认就放在仓库之外**（D44：配置里的 `vaultPath` 指到仓库外的路径）。它不会自己留底——用 `learnmate doctor` 看它究竟在哪，然后整个目录复制或同步。
 
 按代价从低到高：
 
