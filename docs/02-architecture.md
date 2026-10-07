@@ -150,7 +150,7 @@ Web 框架、数据库/ORM、依赖注入容器、模板引擎、日志框架、
 
 | 版本 | 新功能长在哪 | 不用动什么 |
 | --- | --- | --- |
-| v0.2 多格式输入 | 新增 `src/io/readers/{pdf,docx,image}.ts`，统一输出纯文本（`docx.ts` 已落地，见 D42） | `core/` 和 `pipeline.ts` 完全不动 |
+| v0.2 多格式输入 | 新增 `src/io/readers/*.ts`，统一输出纯文本（`docx.ts` 已落地，见 D42；PDF 与图片推迟，见 D43） | `core/` 和 `pipeline.ts` 完全不动 |
 | v0.3 智能查询 | 新增 `src/retrieval/`，索引放 `vault/.learnmate/index/` | 整理流程完全不动 |
 | v0.4 知识网络 | 新增 `core/graph.ts` + frontmatter 里的 `links` 字段 | 靠 `schema_version` 做迁移 |
 

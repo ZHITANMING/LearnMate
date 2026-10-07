@@ -1,6 +1,6 @@
 {
   "name": "learnmate",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Personal AI Knowledge Assistant —— 把学习笔记整理成结构化 Markdown，存进你自己的知识库",
   "private": true,
   "type": "module",
