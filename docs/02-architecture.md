@@ -38,6 +38,7 @@ Markdown 由一个确定性函数从那个 JSON 生成。
 | `src/io/vault.ts` | vault | 知识库文件系统：拼路径、清洗文件名、原子写、读写 raw/draft/notes、回收站、扫描 | 是 |
 | `src/io/ledger.ts` | ledger | 追加式台账：指纹查重 + 运行审计 | 是 |
 | `src/io/llm.ts` | llmClient | 一个方法：给它消息和 JSON schema，拿回已解析的对象和用量 | 是 |
+| `src/io/readers/*.ts` | readers | 把别的格式抽成纯文本（现在只有 `docx.ts`），**只读不写**；输出接着走 `ingest`，下游看不见格式差异 | 是 |
 | `src/util/*.ts` | 小工具 | 被多处复用的纯工具（`hash.ts`、`slug.ts`）。只有 `id.ts` 例外——它生成 ULID，需要当前时间和随机数 | 部分 |
 
 ### 关于 `util/id.ts` 的一个说明
@@ -76,7 +77,7 @@ Markdown 由一个确定性函数从那个 JSON 生成。
 ## 一次 `learnmate add` 的数据流
 
 ```
-1.  命令行         收到一段文本（或一个 .txt 的路径）
+1.  命令行         收到一段文本（或一个文件的路径；`.docx` 会先抽成文本）
 2.  ingest         规范化（CRLF→LF、去首尾空白）→ 算 sha256 指纹 → 检查长度
 3.  ledger         拿指纹查台账：见过就直接提示「已存在」并退出 0，不重复调模型
 4.  vault          ★ 把原文写进 vault/.learnmate/raw/<input_id>.txt        ← 第一个写入动作
@@ -149,7 +150,7 @@ Web 框架、数据库/ORM、依赖注入容器、模板引擎、日志框架、
 
 | 版本 | 新功能长在哪 | 不用动什么 |
 | --- | --- | --- |
-| v0.2 多格式输入 | 新增 `src/io/readers/{pdf,docx,image}.ts`，统一输出纯文本 | `core/` 和 `pipeline.ts` 完全不动 |
+| v0.2 多格式输入 | 新增 `src/io/readers/{pdf,docx,image}.ts`，统一输出纯文本（`docx.ts` 已落地，见 D42） | `core/` 和 `pipeline.ts` 完全不动 |
 | v0.3 智能查询 | 新增 `src/retrieval/`，索引放 `vault/.learnmate/index/` | 整理流程完全不动 |
 | v0.4 知识网络 | 新增 `core/graph.ts` + frontmatter 里的 `links` 字段 | 靠 `schema_version` 做迁移 |
 

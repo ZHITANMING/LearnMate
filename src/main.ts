@@ -35,7 +35,7 @@ program
 program
   .command('add')
   .description('把一段文字或一个文件交给 AI 整理成笔记（会调用模型、会写文件）')
-  .argument('[source]', '要整理的文件；用 - 表示从标准输入读')
+  .argument('[source]', '要整理的文件（.txt / .md / .docx）；用 - 表示从标准输入读')
   .option('--yes', '不逐条确认，全部接受（适合批量录入）')
   .option('--dry-run', '只预览，一个文件都不写（会照常调用模型）')
   .option('--force', '即使这份输入已经处理过，也重新跑一遍')

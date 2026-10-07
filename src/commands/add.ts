@@ -21,6 +21,7 @@ import { loadConfig, requireApiKey } from '../config.js';
 import { EXIT, UsageError, type ExitCode } from '../core/errors.js';
 import { createChatFunction } from '../io/llm.js';
 import { readPromptTemplate } from '../io/prompt.js';
+import { docxToText, isDocxFile } from '../io/readers/docx.js';
 import { vaultPaths } from '../io/vault.js';
 import {
   runAdd,
@@ -117,7 +118,16 @@ interface Input {
   sourceRef: string | undefined;
 }
 
-function readInput(source: string | undefined): Input {
+/**
+ * 把「用户给的那个东西」变成一段待整理的文本。
+ *
+ * 只有两种输入形态：**标准输入**和**一个文件**。文件里目前认两种：UTF-8 纯文本
+ * （直接读）和 `.docx`（先抽成文字，见 `src/io/readers/docx.ts`）。抽取走的是
+ * 契约 5.6 那条路，抽完就和纯文本输入没有任何区别。
+ *
+ * 导出它只是为了让测试能从一个真的文件读出东西来（命令层其余部分都要调用模型）。
+ */
+export function readInput(source: string | undefined): Input {
   if (source === undefined) {
     // 没参数、又坐在终端前，说明用户还不知道这个命令要吃什么。
     // 直接等标准输入看起来就像「卡住了」——那是最让人困惑的一种失败。
@@ -126,6 +136,7 @@ function readInput(source: string | undefined): Input {
         '还没有说要整理什么。\n' +
           '  用法：learnmate add 笔记.txt\n' +
           '  或者：type 笔记.txt | learnmate add -\n' +
+          '  Word 文档也行：learnmate add 示例输入.docx\n' +
           '  （换行符、缩进都不用管，工具会先做一遍规范化。）',
       );
     }
@@ -135,11 +146,17 @@ function readInput(source: string | undefined): Input {
   if (source === '-') return { text: readStdin(), sourceRef: undefined };
 
   const filePath = resolve(source);
+  const fileName = basename(filePath);
+  let bytes: Buffer;
   try {
-    return { text: readFileSync(filePath, 'utf8'), sourceRef: basename(filePath) };
+    bytes = readFileSync(filePath);
   } catch (error) {
     throw new UsageError(`读不到这个文件：${filePath}\n  ${describeCause(error)}`);
   }
+
+  // `.docx` 是压缩包，按文本读只会得到一屏乱码。先抽出文字，再交给后面那条同一条路。
+  if (isDocxFile(fileName)) return { text: docxToText(bytes), sourceRef: fileName };
+  return { text: bytes.toString('utf8'), sourceRef: fileName };
 }
 
 function readStdin(): string {

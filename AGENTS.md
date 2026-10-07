@@ -14,7 +14,7 @@ TypeScript / Node.js >= 20 / ESM。运行时依赖只有 `commander`。
 
 ```bash
 npm run typecheck   # src/ 和 tests/ 一起查
-npm test            # 461 个用例，必须全绿
+npm test            # 495 个用例，必须全绿
 ```
 
 **两个都要过。** 测试跑的是编译到 `dist-test/` 的产物，所以改了 `src/` 忘了编译会被发现。

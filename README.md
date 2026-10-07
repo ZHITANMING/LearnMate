@@ -95,7 +95,7 @@ node dist/main.js doctor
 ### 1. 把笔记交给 AI：`add`
 
 ```bash
-node dist/main.js add ..\_tmp\示例输入.txt      # 从一个文件读
+node dist/main.js add ..\_tmp\示例输入.txt      # 从一个文件读（.txt / .md / .docx）
 type 我的笔记.txt | node dist/main.js add -   # 从管道读（中文乱码先 chcp 65001）
 ```
 
@@ -109,6 +109,11 @@ node dist/main.js add ..\_tmp\示例输入.txt --dry-run   # 只预览，一个�
 node dist/main.js add ..\_tmp\示例输入.txt --yes       # 不询问，直接写
 node dist/main.js add ..\_tmp\示例输入.txt --force     # 同一份内容已经处理过时也照样再处理
 ```
+
+**Word 文档（`.docx`）可以直接给**：`add ..\_tmp\示例输入.docx`。文字是抽出来之后再整理的，
+抽不到文字的文件（扫描件、通篇图片）会当场报错、**一个文件都不写**。已知抽不出来的是页眉页脚、
+批注、脚注、图片和公式；表格会拍平成「一行的单元格用 Tab 隔开」。`.doc`（老格式）不支持——
+在 Word 里另存为 `.docx` 再试，改扩展名没用。文本一律按 UTF-8 读，别的编码会读成乱码。
 
 ### 2. 看知识库里有什么：`list` / `show`
 
